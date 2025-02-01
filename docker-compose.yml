@@ -1,17 +1,36 @@
-version: '3'
 services:
   www: 
+    image: calorific:latest
     build: .
-    volumes:
-      - "./:/var/www/html"
-      - /dev/null:/var/www/html/credentials.php
-      - /dev/null:/var/www/html/docker-compose.yml
+    pull_policy: never
+    restart: unless-stopped
+    environment:
+      - DB_HOST=db
+      - DB_USER=php_docker
+      - DB_PASS=password123
+      - DB_NAME=calorific
     ports:
-      - 1338:80
-  db: 
+      - 8080:80
+    depends_on:
+      db:
+        condition: service_healthy
+        required: true
+  db:
     image: mysql:latest
+    restart: unless-stopped
     environment:
       - MYSQL_DATABASE=calorific
       - MYSQL_USER=php_docker
       - MYSQL_PASSWORD=password123
       - MYSQL_RANDOM_ROOT_PASSWORD=1
+    volumes:
+      - db:/var/lib/mysql
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 55
+
+volumes:
+    db:
