@@ -1,1 +1,5 @@
 credentials.php
+docker-compose.yaml
+.git
+.github
+.gitignore

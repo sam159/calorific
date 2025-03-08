@@ -70,7 +70,7 @@ The `$mysqlDB` variable is optional and can be omitted in order to create and us
 2. `cd` to the directory with the repository.
 3. Build and run the image with `docker-compose up -d`
 4. Wait 10-20 seconds after the first run to let the database start up.
-5. Visit `http://localhost:1338/` in your browser to use the application.
+5. Visit `http://localhost:8080/` in your browser to use the application.
 6. To stop, run `docker-compose stop` in the repository directory.
 7. To update Calorific, run `git pull` in the repository directory (requires `git` to be installed).
 
